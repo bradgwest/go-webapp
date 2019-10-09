@@ -1,5 +1,7 @@
 # Ignore the binary
 go-webapp
+main
 
 # .vscode is specific to user
 .vscode
+
