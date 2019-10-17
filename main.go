@@ -3,9 +3,10 @@ package main
 import (
 	"html/template"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"regexp"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Page struct {
@@ -77,10 +78,15 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 	}
 }
 
+func msgHandler(w http.ResponseWriter, r *http.Request) {
+	log.WithFields(log.Fields{"animal": "walrus"}).Info("A walrus appears")
+}
+
 func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/msg/", msgHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
